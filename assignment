@@ -1,0 +1,55 @@
+SELECT CAR_MODEL, COUNT(*) AS COUNT
+FROM CARS
+GROUP BY CAR_MODEL;
+
+SELECT CAR_MODEL, COUNT(*) AS COUNT
+FROM CARS
+GROUP BY CAR_MODEL;
+
+SELECT COALESCE(CAR_MODEL, 'Total') AS CAR_MODEL,
+    COALESCE(CAR_YEAR, 'Total') AS CAR_YEAR,
+    COUNT(*) AS COUNT
+FROM CARS
+GROUP BY CAR_MODEL, CAR_YEAR WITH ROLLUP;
+
+SELECT
+    COALESCE(CarID, 'Total') AS Car_ID,
+    COALESCE(Month, 'Total') AS Month,
+    COALESCE(Day, 'Total') AS Day,
+    COUNT(*) AS COUNT
+FROM
+    CarUsage
+GROUP BY
+    carID,
+    Month,
+    Day WITH ROLLUP;
+
+SELECT
+    COALESCE(DRIVER_ID, 'Total') AS DRIVER_ID,
+    COALESCE(Car_ID, 'Total') AS Car_ID,
+    COUNT(*) AS Total
+FROM
+    InstantRide
+WHERE
+    MONTH = 'October'
+GROUP BY
+    DRIVER_ID,
+    CAR_ID WITH ROLLUP;
+
+SELECT
+    MONTH AS Month,
+    DAY AS Day,
+    COUNT(*) AS COUNT
+FROM (
+    SELECT
+        MONTH,
+        DAY
+    FROM
+        InstantRide
+    WHERE
+        PRICE >= 5
+) AS PREMIUM_RIDES
+GROUP BY
+    MONTH,
+    DAY
+WITH ROLLUP;
